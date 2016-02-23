@@ -7,7 +7,7 @@ var file = 'open-consumptions.json';
 
 var doPost = function(data) {
   request({
-    url: 'http://localhost:3000/api/consumptions', //URL to hit
+    url: 'http://192.168.2.11:3000/api/consumptions', //URL to hit
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
