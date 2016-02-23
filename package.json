@@ -9,6 +9,7 @@
   "author": "David Ammeraal",
   "license": "ISC",
   "dependencies": {
-    "prompt": "^1.0.0"
+    "prompt": "^1.0.0",
+    "request": "^2.69.0"
   }
 }
