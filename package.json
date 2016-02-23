@@ -9,6 +9,7 @@
   "author": "David Ammeraal",
   "license": "ISC",
   "dependencies": {
+    "jsonfile": "^2.2.3",
     "prompt": "^1.0.0",
     "request": "^2.69.0"
   }
