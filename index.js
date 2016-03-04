@@ -2,7 +2,7 @@ var prompt = require('prompt');
 var request = require('request');
 var jsonfile = require('jsonfile');
 
-var file = 'open-consumptions.json';
+var file = '/home/david/burcht-cli-client/open-consumptions.json';
 
 var doPost = function(data) {
   jsonfile.readFile('/home/david/burcht-cli-client/conf.json', function(err, conf){
