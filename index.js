@@ -2,44 +2,41 @@ var prompt = require('prompt');
 var request = require('request');
 var jsonfile = require('jsonfile');
 
-var user;
-var password;
-
-jsonfile.readFile('conf.json', function(err, conf){
-  user = conf.user;
-  password = conf.password;
-});
-
-
 var file = 'open-consumptions.json';
 
 var doPost = function(data) {
-  var authStr = "Basic " + new Buffer(user + ":" + password).toString("base64");
-  request({
-    url: 'https://burcht.davidammeraal.nl/api/consumptions', //URL to hit
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': authStr
-    },
-    body: JSON.stringify(data),
-    timeout: 5000, //Set the body as a string
-  }, function(error, response, body) {
-    jsonfile.readFile(file, function(err, backlog) {
-      if(error){
-        if(!backlog){
-          backlog = [];
+  jsonfile.readFile('/home/david/burcht-cli-client/conf.json', function(err, conf){
+    user = conf.user;
+    password = conf.password;
+
+    var authStr = "Basic " + new Buffer(user + ":" + password).toString("base64");
+    request({
+      url: 'https://burcht.davidammeraal.nl/api/consumptions', //URL to hit
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': authStr
+      },
+      body: JSON.stringify(data),
+      timeout: 5000, //Set the body as a string
+    }, function(error, response, body) {
+      jsonfile.readFile(file, function(err, backlog) {
+        if(error){
+          if(!backlog){
+            backlog = [];
+          }
+          data.forEach(function(v){
+            backlog.push(v);
+          });
+          jsonfile.writeFile(file, backlog, {spaces: 2});
+        }else if(backlog.length > 0){
+          jsonfile.writeFileSync(file, [], {space: 2});
+          doPost(backlog);
         }
-        data.forEach(function(v){
-          backlog.push(v);
-        });
-        jsonfile.writeFile(file, backlog, {spaces: 2});
-      }else if(backlog.length > 0){
-        jsonfile.writeFileSync(file, [], {space: 2});
-        doPost(backlog);
-      }
+      });
     });
   });
+
 };
 
 var properties = [{
