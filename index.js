@@ -9,9 +9,6 @@ var doPost = function(data) {
     user = conf.user;
     password = conf.password;
 
-    console.log("USER: " + user);
-    console.log("PASSWORD: " + password);
-
     var authStr = "Basic " + new Buffer(user + ":" + password).toString("base64");
     request({
       url: 'https://burcht.davidammeraal.nl/api/consumptions', //URL to hit
@@ -64,6 +61,5 @@ prompt.start();
 requestInput();
 
 function onErr(err) {
-  console.log(err);
   return 1;
 }
